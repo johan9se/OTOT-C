@@ -42,18 +42,9 @@ app.post("/register", async (req, res) => {
             username: username.toLowerCase(),
             email: email.toLowerCase(),
             password: encryptedPassword,
-            role: role
+            role: role,
+            token: null
         });
-
-        // Assign token
-        const token = jwt.sign(
-            { user_id: user._id, email },
-            process.env.TOKEN_KEY,
-            {
-                expiresIn: "2h",
-            }
-        );
-        user.token = token;
 
         return res.status(201).json(user);
     } catch (err) {
@@ -86,18 +77,9 @@ app.post("/register/admin", async (req, res) => {
             username: username.toLowerCase(),
             email: email.toLowerCase(),
             password: encryptedPassword,
-            role: role
+            role: role,
+            token: null
         });
-
-        // Assign token
-        const token = jwt.sign(
-            { user_id: user._id, email, role },
-            process.env.TOKEN_KEY,
-            {
-                expiresIn: "2h",
-            }
-        );
-        user.token = token;
 
         return res.status(201).json(user);
     } catch (err) {
@@ -120,7 +102,7 @@ app.post("/login", async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             // Create and save token if credentials match
             const token = jwt.sign(
-                { user_id: user._id, email, role: user.role },
+                { user_id: user._id, email, role: user.role, date: Date.now() },
                 process.env.TOKEN_KEY,
                 {
                 expiresIn: "2h",
@@ -137,7 +119,6 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/welcome", auth, (req, res) => {
-    console.log(req);
     return res.status(200).send('Hi, you are authenticated to view this page!');
 });
 
