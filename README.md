@@ -1,4 +1,7 @@
 # OTOT-C
+## Running the application locally
+1. Run `docker-compose up --build` in the root of the project
+2. Send requests via Postman to the URL: `http://localhost:8000/`
 
 ## Testing REST API through Postman
 This application demonstrates authentication and authorisation of user accounts created through this REST API.

@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.get('/', function (req, res) {
     return res.json({
-        status: 'API is Working',
+        status: 'OTOT-C API is Working',
         message: 'Hello world'
     });
 });
